@@ -35,6 +35,7 @@ class Mother:
 class Child(Father, Mother):
     pass
 
+#create object
 c = Child()
 
 c.skills()
