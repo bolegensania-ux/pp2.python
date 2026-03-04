@@ -9,6 +9,23 @@ Find payment method
 Create a structured output (JSON or formatted text)
 """
 
+# RegEx - is a regular expression, a sequence of characters, that forms a search pattern 
+
+# findall() - returns a list of all matches
+# search() - returns the match object itself
+
+# split() - returns a list, but all matches are distinguished at each match (['The', 'rain', 'in', 'Spain'])
+
+# ^ - starts with, $ - ends with 
+# * - 0 or more occurence
+# . - any character
+
+# {} - a specified number of occurence
+
+# \d - returns a match were the string contains characters
+# \s - returns a match were the string contains a white space
+# \b - returns a match were specified characters at the end or at the beginning
+
 with open("Practice05/raw.txt", "r", encoding="utf-8") as file:
     text = file.read()
 
