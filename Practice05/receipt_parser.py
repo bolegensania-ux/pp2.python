@@ -15,6 +15,7 @@ Create a structured output (JSON or formatted text)
 # search() - returns the match object itself
 
 # split() - returns a list, but all matches are distinguished at each match (['The', 'rain', 'in', 'Spain'])
+# sub() - replaces a found martch
 
 # ^ - starts with, $ - ends with 
 # * - 0 or more occurence
