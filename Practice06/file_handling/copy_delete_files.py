@@ -1,7 +1,7 @@
 # copying and creating a backup txt file
 
 import shutil 
-shutil.copy("../sample.txt", "../backup_copy_sample.txt")
+shutil.copy("Practice06/sample.txt", "Practice06/backup_copy_sample.txt")
 
 with open("../backup_copy_sample.txt", "r") as f:
     print(f.read())
@@ -13,7 +13,7 @@ with open("../backup_copy_sample.txt", "r") as f:
 """
 import os
 
-file_path = "../backup_copy_sample.txt"
+file_path = "Practice06/backup_copy_sample.txt"
 
 if os.path.exists(file_path):
    os.remove(file_path)
