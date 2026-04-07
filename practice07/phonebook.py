@@ -1,70 +1,96 @@
 # creating a phonebook
+
 import csv
-import psycopg2
-conn = psycopg2.connect(
-    dbname = "my_first_db",
-    user = "postgres",
-    password = "BS150907",
-    host = "localhost",
-    port = "5432"
-)
+import psycopg2   # psycopg2 is used to connect PostrqeSQL databases to Python
 
-cur = conn.cursor()
+# connecting PostgreSQL
+def connect():
+    return psycopg2.connect(
+        dbname = "my_first_db",
+        user = "postgres",
+        password = "BS150907",
+        host = "localhost",
+        port = "5432"
+    )
 
-#cur.execute("""
-#CREATE TABLE Phonebook (
- #   id SERIAL PRIMARY KEY,
-  #  name VARCHAR(100),
-   # phone VARCHAR(20))
-#""")
-#conn.commit() 
-with open("practice07/contacts.csv", "r") as f:
-    reader = csv.reader(f)
+# creating table
+def create_table(cur, conn):
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS Phonebook(
+        id SERIAL PRIMARY KEY,
+        name varchar(100),
+        number varchar(20) UNIQUE
+    )
+    """)
+    conn.commit()
 
-    for row in reader:
-        name = row[0]
-        phone = row[1]
+# inserting from the csv file
+def insert_from_csv(cur, conn):
+    with open("practice07/contacts.csv", "r") as f:
+        reader = csv.reader(f)
 
-        cur.execute(
-            "INSERT INTO Phonebook (name, phone) VALUES(%s, %s)" ,
-            (name, phone)
-        )
-conn.commit()
-print("Data has been inserted!")
+        for row in reader:
+            name, number = row
 
-# adding contacts from console
-#name = input("Enter name: ")
-#phone = input("Enter phhone number: ")
+            cur.execute(
+                "INSERT INTO Phonebook (name, number) VALUES (%s, %s) ON CONFLICT (number) DO NOTHING" ,
+                (name, number)
+            )
+    conn.commit()
+    print("inserted successfully!")
 
-#cur.execute(
- #   "INSERT INTO Phonebook (name, phone) VALUES(%s, %s)", 
-  #  (name, phone)
-#)
-#conn.commit()
+# insert data from the console
+def insert_from_console(cur, conn):
+    name = input("enter a name: ")
+    number = input("enter a phone: ")
 
-#print("Inserted successfully!")
+    cur.execute(
+    "INSERT INTO Phonebook (name, number) VALUES (%s, %s) ON CONFLICT (number) DO NOTHING",
+    (name, number)
+    )
 
-# update information about a contact
+    conn.commit()
 
-cur.execute(
-"UPDATE Phonebook SET phone = 345466565 WHERE name LIKE 'S%'"
-)
-conn.commit()
-print("Data has been updated!")
+# update data 
+def update_data(cur, conn):
+    cur.execute(
+    "UPDATE Phonebook SET number = '5685767654' WHERE name LIKE 'B%'"
+    )
+    print("table has been updated!")
+    conn.commit()
 
-# filtering 
-cur.execute(
-    "SELECT *FROM Phonebook ORDER BY name ASC"
-)
-conn.commit()
+# view the table from the console
+def view_table(cur):
+    cur.execute(
+    "SELECT * FROM Phonebook ORDER BY name ASC"
+    )
+    rows = cur.fetchall()
 
-rows = cur.fetchall()
+    for row in rows:
+        print(row)
 
-for row in rows:
-    print(row)
-
-cur.execute(
+# deleting some information from table
+def delete_from_table(cur, conn):
+    cur.execute(
     "DELETE FROM Phonebook WHERE name = 'Baha'"
-)
-conn.commit()
-print("Deletion was successful")
+    )
+    conn.commit()
+    print("deletion was successful!")
+
+
+def main():
+    conn = connect()
+    cur = conn.cursor()
+
+    create_table(cur, conn)
+    #insert_from_csv(cur, conn)
+    #insert_from_console(cur, conn)
+    #update_data(cur, conn)
+    view_table(cur)
+    delete_from_table(cur, conn)
+
+    cur.close()
+    conn.close()
+
+if __name__ == "__main__":
+    main()
