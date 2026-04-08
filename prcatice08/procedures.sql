@@ -29,3 +29,31 @@ END;
 $$ LANGUAGE plpgsql;
 
 CALL delete_user('Sasha');
+
+
+CREATE OR REPLACE PROCEDURE insert_many_users()
+AS $$
+DECLARE
+    rec RECORD;
+BEGIN
+    CREATE TEMP TABLE IF NOT EXISTS invalid_data (
+        name TEXT,
+        number TEXT
+    );
+
+    DELETE FROM invalid_data;
+
+    FOR rec IN SELECT * FROM phonebook_temp
+    LOOP
+        IF rec.number ~ '^[0-9]+$' THEN
+            INSERT INTO phonebook(name, number)
+            VALUES (rec.name, rec.number)
+            ON CONFLICT (number) DO NOTHING;
+        ELSE
+            -- store invalid data
+            INSERT INTO invalid_data(name, number)
+            VALUES (rec.name, rec.number);
+        END IF;
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;
