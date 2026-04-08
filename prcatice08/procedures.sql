@@ -15,3 +15,14 @@ END;
 $$LANGUAGE plpgsql;
 
 CALL insert_or_update_user('Sasha', '999999');
+
+
+CREATE OR REPLACE PROCEDURE delete_user(p_value TEXT)
+AS $$
+BEGIN
+    DELETE FROM Phonebook 
+	WHERE name = p_value OR number = p_value;
+END;
+$$ LANGUAGE plpgsql;
+
+CALL delete_user('Sasha');
