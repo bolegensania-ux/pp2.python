@@ -20,8 +20,11 @@ CALL insert_or_update_user('Sasha', '999999');
 CREATE OR REPLACE PROCEDURE delete_user(p_value TEXT)
 AS $$
 BEGIN
-    DELETE FROM Phonebook 
-	WHERE name = p_value OR number = p_value;
+    IF EXISTS(
+        SELECT 1 FROM Phonebook WHERE name = p_name OR number = p_value
+    ) THEN 
+        DELETE FROM Phonebook 
+	    WHERE name = p_value OR number = p_value;
 END;
 $$ LANGUAGE plpgsql;
 
