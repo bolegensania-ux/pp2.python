@@ -7,4 +7,4 @@ difference = date1 - date2
 seconds = difference.total_seconds()
 print("difference in seconds:", seconds)
 
-# to convert the difference into seconds: .total_scores()
+# to convert the difference into seconds: .total_seconds()
