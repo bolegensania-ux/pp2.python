@@ -1,0 +1,5 @@
+DB_NAME = "my_first_db"
+DB_USER = "postgres"
+DB_PASSWORD = "BS150907"
+DB_HOST = "localhost"
+DB_PORT = "5432"

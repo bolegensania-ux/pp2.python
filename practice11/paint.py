@@ -42,7 +42,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # 🔹 KEYBOARD (MUST be inside loop)
+        # KEYBOARD (MUST be inside loop)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 shape = "rect"
@@ -55,7 +55,7 @@ while running:
             elif event.key == pygame.K_d:
                 shape = "rhombus"
 
-        # 🔹 MOUSE
+        # MOUSE
         if event.type == pygame.MOUSEBUTTONDOWN:
             drawing = True
             start_pos = event.pos
@@ -64,7 +64,7 @@ while running:
             drawing = False
             end_pos = event.pos
 
-    # 🔹 update position while dragging
+    # update position while dragging
     if drawing:
         end_pos = pygame.mouse.get_pos()
 
@@ -74,10 +74,10 @@ while running:
     width = x2 - x1
     height = y2 - y1
 
-    # 🔹 clear screen
+    #bclear screen
     screen.fill(WHITE)
 
-    # 🔹 draw shapes ONLY when dragging
+    #  draw shapes ONLY when dragging
     if drawing:
         if shape == "rect":
             pygame.draw.rect(screen, color, (x1, y1, width, height), 3)
